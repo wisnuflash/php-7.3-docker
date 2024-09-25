@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: php73-apache-ubuntu
     ports:
-      - "8060:80"
+      - "8061:80"
     volumes:
       - ./src:/var/www/html
       - ./php.ini:/usr/local/etc/php/php.ini
