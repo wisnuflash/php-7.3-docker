@@ -1,0 +1,47 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php73-apache-ubuntu
+    ports:
+      - "8060:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./php.ini:/usr/local/etc/php/php.ini
+      - ./apache2.conf:/usr/local/etc/apache2/apache2.conf # Mount a custom php.ini if needed
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+    # command: bash -c "docker-php-ext-install mysqli && apache2-foreground"
+    working_dir: /var/www/html
+    networks:
+      - app-network
+    stdin_open: true
+    tty: true
+    # depends_on:
+    #   - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
+
+#   db:
+#     image: mysql:5.7
+#     container_name: mysql57
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: rootpassword
+#       MYSQL_DATABASE: mydatabase
+#       MYSQL_USER: user
+#       MYSQL_PASSWORD: password
+#     volumes:
+#       - db_data:/var/lib/mysql
+#     networks:
+#       - app-network
+
+# volumes:
+#   db_data:
+
+networks:
+  app-network:
+    driver: bridge
